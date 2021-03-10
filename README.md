@@ -14,20 +14,20 @@ You can provide a postman collection and environment to be tested in one of two 
 1. Provided in your github repo
     ```hcl
     module "postman_test_lambda" {
-      source = "github.com/byu-oit/terraform-aws-postman-test-lambda?ref=v2.3.0"
+      source = "github.com/byu-oit/terraform-aws-postman-test-src?ref=v2.3.0"
         app_name                      = "simple-example"
-        postman_collection_file       = "terraform-aws-postman-test-lambda-example.postman_collection.json"
-        postman_environment_file      = "terraform-aws-postman-test-lambda-env.postman_environment.json"
+        postman_collection_file       = "terraform-aws-postman-test-src-example.postman_collection.json"
+        postman_environment_file      = "terraform-aws-postman-test-src-env.postman_environment.json"
         role_permissions_boundary_arn = data.aws_ssm_parameter.role_permissions_boundary_arn.value
     }
     ```
 2. Or from the Postman API
     ```hcl
     module "postman_test_lambda" {
-      source = "github.com/byu-oit/terraform-aws-postman-test-lambda?ref=v2.3.0"
+      source = "github.com/byu-oit/terraform-aws-postman-test-src?ref=v2.3.0"
         app_name                      = "simple-example"
-        postman_collection_name       = "terraform-aws-postman-test-lambda-example"
-        postman_environment_name      = "terraform-aws-postman-test-lambda-env"
+        postman_collection_name       = "terraform-aws-postman-test-src-example"
+        postman_environment_name      = "terraform-aws-postman-test-src-env"
         postman_api_key               = var.postman_api_key
         role_permissions_boundary_arn = data.aws_ssm_parameter.role_permissions_boundary_arn.value
     }
@@ -43,7 +43,7 @@ You can provide a postman collection and environment to be tested in one of two 
 Then add your lambda function_name to the CodeDeploy lifecycle hook you want the postman tests to run on.
 For instance, if you're using the [fargate-api module](https://github.com/byu-oit/terraform-aws-fargate-api):
 ```hcl
-# ... postman-test-lambda module
+# ... postman-test-src module
 
 module "fargate_api" {
   source = "github.com/byu-oit/terraform-aws-fargate-api?ref=" # latest version
@@ -59,10 +59,10 @@ module "fargate_api" {
 ```
 Or if you're using the [lambda-api module](https://github.com/byu-oit/terraform-aws-lambda-api):
 ```hcl
-# ... postman-test-lambda module
+# ... postman-test-src module
 
 module "lambda_api" {
-  source = "github.com/byu-oit/terraform-aws-lambda-api?ref=" # latest version
+  source = "github.com/byu-oit/terraform-aws-src-api?ref=" # latest version
   # .. all other variables
   codedeploy_lifecycle_hooks = {
     BeforeAllowTraffic = module.postman_test_lambda.lambda_function.function_name
@@ -101,6 +101,6 @@ module "lambda_api" {
 ## Contributing
 To contribute to this terraform module make a feature branch and create a Pull Request to the `master` branch.
 
-This terraform module bakes in the lambda function code in the committed [function.zip](lambda/dist/function.zip) file.
+This terraform module bakes in the lambda function code in the committed [function.zip](lambda/src/dist/function.zip) file.
 
-If you change the [index.js](lambda/src/index.js) file then you'll need to run `npm run package` and commit the [function.zip](lambda/dist/function.zip) file.
+If you change the [index.js](lambda/src/src/index.js) file then you'll need to run `npm run package` and commit the [function.zip](lambda/src/dist/function.zip) file.

@@ -9,7 +9,7 @@ terraform {
 # START OF LAMBDA FUNCTION
 # -----------------------------------------------------------------------------
 resource "aws_lambda_function" "test_lambda" {
-  filename         = "${path.module}/lambda/sourceCode.zip"
+  filename         = "${path.module}/lambda/dist/sourceCode.zip"
   function_name    = "${var.app_name}-combined-tests"
   role             = aws_iam_role.test_lambda.arn
   handler          = "handler.lambda_handler"
