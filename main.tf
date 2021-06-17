@@ -81,7 +81,7 @@ resource "aws_iam_role_policy" "test_lambda" {
       "Resource": [
         "${var.postman_test_lambda_arn}",
         "${var.ui_test_lambda_arn}"
-      ]
+      ],
       "Effect": "Allow"
     }
   ]
